@@ -74,6 +74,21 @@ function rollToLowerEvenDigitCount(n: string): string {
     return "9".repeat(digits - 1);
 }
 
+function getDivisorsOfDigit(num: string): number[] {
+    const digits = num.length;
+    const half = digits / 2;
+
+    const divisors: number[] = [1];
+
+    for (let i = 2; i < half; i++) {
+        if (digits % i === 0 && i !== half) {
+            divisors.push(i);
+        }
+    }
+
+    return divisors;
+}
+
 
 iterateintervals();
 console.log(counter)
