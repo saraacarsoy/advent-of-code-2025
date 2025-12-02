@@ -5,6 +5,11 @@ export function readInput(path: string): string {
   return readFileSync(path, 'utf8');
 }
 
+// read lines as array with delimiter
+export function readWithDelimiter(path: string, delimiter: string): string[] {
+  return readFileSync(path, 'utf8').split(delimiter);
+}
+
 // lines as array
 export function readLines(path: string): string[] {
   return readFileSync(path, 'utf8').replace(/\r/g, '').split('\n');
