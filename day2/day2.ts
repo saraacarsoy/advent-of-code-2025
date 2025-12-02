@@ -11,7 +11,7 @@ function iterateintervals() {
         let higherLimit = limits[1];
 
         for (let i = Number(lowerInterval); i <= Number(higherLimit); i++) {
-            if (isInvalidPart1(i)) {
+            if (isInvalidPart2(i)) {
                 counter += i;
             }
         }
@@ -31,6 +31,32 @@ function isInvalidPart1(n: number): boolean {
     const repeated = prefix + prefix;
 
     return repeated === s;
+}
+
+function isInvalidPart2(n: number): boolean {
+    const s = String(n);
+    const len = s.length;
+
+    if (len < 2) return false;
+
+    for (let i = 1; i <= Math.floor(len / 2); i++) {
+        if (len % i === 0) {
+            const prefix = s.slice(0, i);
+            
+            let repeated = "";
+            const numRepeats = len / i;
+            
+            for (let j = 0; j < numRepeats; j++) {
+                repeated += prefix;
+            }
+
+            if (repeated === s) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 iterateintervals();
