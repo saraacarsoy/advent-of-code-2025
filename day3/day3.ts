@@ -6,7 +6,8 @@ let counter = 0;
 
 function iterateLines() {
     for (const line of lines) {
-        getMaxTwoDigits(line);
+        // getMaxTwoDigits(line);
+        removeSmallest(line);
     }
 }
 
@@ -23,6 +24,25 @@ function getMaxTwoDigits(s: string) {
     }
 
     counter += best;
+}
+
+function removeSmallest(s: string) {
+    const digits = s.length;
+    let toRemove = digits - 12;
+
+    const stack: string[] = [];
+    const arr: string[] = s.split('');
+
+    arr.forEach(el => {
+        while (toRemove > 0 && stack.length > 0 && stack[stack.length - 1] < el) {
+            stack.pop();
+            toRemove--;
+        }
+        stack.push(el);
+    });
+
+    const remaining: string = stack.slice(0, 12).join('');
+    counter +=  Number(remaining);
 }
 
 iterateLines();
