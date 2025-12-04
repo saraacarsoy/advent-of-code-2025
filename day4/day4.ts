@@ -4,7 +4,6 @@ const grid = parseGrid("./day4.txt");
 const value = '@';
 let counter = 0;
 let coords: [number, number][] = [];// keep coords to remove
-let total = 0;
 
 function iterateGrid() {
     for (let r = 0; r < grid.length; r++) {
