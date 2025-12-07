@@ -1,34 +1,27 @@
 import { readLines } from "../utils/aoc";
 
-const lines: string[] = readLines("./day6.txt");
+const lines = readLines("./day6.txt");
+const input = lines.map(line =>
+    line.split(" ").filter(x => x !== "")
+);
+const signs = input.at(-1) as string[];
 
-function formatInput() {
-    const updated = lines.map(line =>
-        line.split(' ').filter(x => x !== '')
-    );
+function part1(): number {
+    let total = 0;
 
-    return updated;
-}
+    for (let col = 0; col < input[0].length; col++) {
+        const operator = signs[col];
+        let acc = operator === "+" ? 0 : 1;
 
-const input = formatInput();
-
-const signs: string[] = input.at(-1);
-
-let  totalCounter = 0;
-
-for (let col = 0; col < input[0].length; col++) {
-    let operator = signs[col];
-    let count = operator === "+" ? 0 : 1;
-
-    for (let row = 0; row < input.length - 1; row++) {
-        if (operator === "+") {
-            count += Number(input[row][col]);
-        } else {
-            count *= Number(input[row][col]);
+        for (let row = 0; row < input.length - 1; row++) {
+            const value = Number(input[row][col]);
+            acc = operator === "+" ? acc + value : acc * value;
         }
+
+        total += acc;
     }
 
-    totalCounter += count;
+    return total;
 }
 
-console.log(totalCounter)
+console.log(part1());
