@@ -46,4 +46,30 @@ function part1() {
 
 // part1();
 
-function part2() {}
+
+const memo: Record<string, number> = {};
+
+function dfs(row: number, col: number): number {
+    const key = String(row) + "," + String(col);
+    if (key in memo) return memo[key];
+
+    if (row + 1 < grid.length) {
+        if (grid[row + 1][col] === ".") {
+            memo[key] = dfs(row + 1, col);
+            return memo[key];
+        } else {
+            memo[key] = dfs(row + 1, col + 1) + dfs(row + 1, col - 1);
+            return memo[key];
+        }
+    } else {
+        return 1;
+    }
+}
+
+function part2() {
+    const [startRow, startCol] = start;
+    console.log(dfs(startRow, startCol));
+}
+
+
+part2();
