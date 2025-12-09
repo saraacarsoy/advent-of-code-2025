@@ -6,7 +6,7 @@ const grid: Point[] = readLines("./day8.txt")
         return { x, y, z };
     });
 
-const solvePart1 = true;
+const solvePart1 = false;
 
 interface Point {
     x: number;
@@ -70,7 +70,7 @@ function distance(a: Point, b: Point): number {
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-function part1() {
+function solve() {
     const n = grid.length;
     const uf = new UnionFind(n);
     const edges = buildEdges();
@@ -96,7 +96,25 @@ function part1() {
         console.log(productOfThreeLargest);
     }
 
+    let lastMergedEdge: Edge | null = null;
 
+    for (const edge of edges) {
+        if (uf.union(edge.u, edge.v)) {
+            lastMergedEdge = edge;
+
+            if (uf.size[uf.find(edge.u)] === n) {
+                break;
+            }
+        }
+    }
+
+    if (lastMergedEdge) {
+        const pointU = grid[lastMergedEdge.u];
+        const pointV = grid[lastMergedEdge.v];
+
+        console.log(pointU.x * pointV.x);
+    }
 }
 
-part1();
+
+solve();
