@@ -6,6 +6,8 @@ const grid: Point[] = readLines("./day8.txt")
         return { x, y, z };
     });
 
+const solvePart1 = true;
+
 interface Point {
     x: number;
     y: number;
@@ -75,22 +77,26 @@ function part1() {
 
     edges.sort((a, b) => a.weight - b.weight);
 
-    const targetPairs = 1000;
-    for (let i = 0; i < targetPairs; i++) {
-        const edge = edges[i];
-        uf.union(edge.u, edge.v);
+    if (solvePart1) {
+        const targetPairs = 1000;
+        for (let i = 0; i < targetPairs; i++) {
+            const edge = edges[i];
+            uf.union(edge.u, edge.v);
+        }
+
+        const circuitSizes = new Map<number, number>();
+        for (let i = 0; i < n; i++) {
+            const root = uf.find(i);
+            circuitSizes.set(root, (circuitSizes.get(root) ?? 0) + 1);
+        }
+
+        const sizes = [...circuitSizes.values()].sort((a, b) => b - a);
+        const productOfThreeLargest = sizes[0] * sizes[1] * sizes[2];
+
+        console.log(productOfThreeLargest);
     }
 
-    const circuitSizes = new Map<number, number>();
-    for (let i = 0; i < n; i++) {
-        const root = uf.find(i);
-        circuitSizes.set(root, (circuitSizes.get(root) ?? 0) + 1);
-    }
 
-    const sizes = [...circuitSizes.values()].sort((a, b) => b - a);
-    const productOfThreeLargest = sizes[0] * sizes[1] * sizes[2];
-
-    console.log(productOfThreeLargest);
 }
 
 part1();
