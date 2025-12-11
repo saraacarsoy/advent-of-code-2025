@@ -24,20 +24,38 @@ function parseLines(input: string): Graph {
     return graph;
 }
 
-const countPaths = memo(function dfs(device: string): number {
-    if (device === "out") return 1;
+let memoization: Record<string, number> = {};
+
+function dfs(device: string, path: string[], hasFft: boolean, hasDac: boolean): number {
+    const key = `${device}-${hasFft ? 1 : 0}-${hasDac ? 1 : 0}`;
+    if (key in memoization) return memoization[key];
+    if (path.includes(device)) return 0;
+
+    const currentHasFft = hasFft || device === "fft";
+    const currentHasDac = hasDac || device === "dac";
+
+    if (device === "out") {
+        const result = (currentHasFft && currentHasDac) ? 1 : 0;
+        memoization[key] = result;
+        return result;
+    }
 
     const next = graph[device] || [];
-    if (next.length === 0) return 0;
+
+    path.push(device);
 
     let total = 0;
-    for (const child of next) {
-        total += dfs(child);
+    for (let i = 0; i < next.length; i++) {
+        total += dfs(next[i], path, currentHasFft, currentHasDac);
     }
+
+    path.pop();
+    memoization[key] = total;
     return total;
-});
+}
 
 const graph = parseLines(input);
-const totalPaths = countPaths("you");
+
+const totalPaths = dfs("svr", [], false, false);
 
 console.log("part 1:", totalPaths);
