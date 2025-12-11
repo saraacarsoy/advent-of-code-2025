@@ -1,4 +1,4 @@
-import { readInput } from "../utils/aoc";
+import { memo, readInput } from "../utils/aoc";
 
 const input = readInput("./day11.txt");
 
@@ -24,11 +24,20 @@ function parseLines(input: string): Graph {
     return graph;
 }
 
+const countPaths = memo(function dfs(device: string): number {
+    if (device === "out") return 1;
+
+    const next = graph[device] || [];
+    if (next.length === 0) return 0;
+
+    let total = 0;
+    for (const child of next) {
+        total += dfs(child);
+    }
+    return total;
+});
+
 const graph = parseLines(input);
+const totalPaths = countPaths("you");
 
-for (const [device, outputs] of Object.entries(graph)) {
-    console.log(device, outputs)
-}
-
-const next = graph["you"] ?? [];
-console.log(next)
+console.log("part 1:", totalPaths);
