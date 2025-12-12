@@ -16,10 +16,10 @@ interface Regions {
     requests: Map<PresentIndex, number>;
 }
 
-function parseInput(lines: string[]) {
-    const presents: Presents[] = [];
-    const regions: Regions[] = [];
+const presents: Presents[] = [];
+const regions: Regions[] = [];
 
+function parseInput(lines: string[]) {
     let i = 0;
 
     while (i < lines.length) {
@@ -42,7 +42,7 @@ function parseInput(lines: string[]) {
 
             presents.push({ index, size, grid });
 
-            i += 4; 
+            i += 4;
             continue;
         }
 
@@ -58,7 +58,7 @@ function parseInput(lines: string[]) {
             for (let i = 0; i < values.length; i++) {
                 requests.set(i, values[i])
             }
-            
+
             regions.push({ width, length, size, requests });
             i++;
             continue;
@@ -69,5 +69,24 @@ function parseInput(lines: string[]) {
 }
 
 const input = readLines("./day12.txt");
+parseInput(input);
 
-console.log(parseInput(input));
+function checkIfAllFits() {
+    let count = 0;
+    for (let i = 0; i < regions.length; i++) {
+        const maxSize = regions[i].size;
+        let totalPresentSize = 0;
+
+        for (let [presentIdx, amount] of regions[i].requests) {
+            totalPresentSize += presents[presentIdx].size * amount;
+        }
+
+        if (maxSize < totalPresentSize) continue;
+        count++;
+    }
+
+    console.log(count);
+
+}
+
+checkIfAllFits();
