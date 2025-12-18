@@ -47,7 +47,7 @@ function buildButtonMask(indices: number[]): number {
     return mask;
 }
 
-function minPresses(machine: Machine): number {
+function minPresses(machine: Machine): number | undefined {
     const { target, buttons } = machine;
     const n = target.length;
 
@@ -86,7 +86,7 @@ function part1() {
     let totalPresses = 0;
 
     for (const machine of machines) {
-        totalPresses += minPresses(machine);
+        totalPresses += minPresses(machine)!;
     }
 
     console.log(totalPresses);
