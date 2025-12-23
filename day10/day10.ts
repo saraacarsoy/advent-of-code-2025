@@ -91,14 +91,6 @@ function part1() {
     console.log(totalPresses);
 }
 
-function stateKey(counters: number[]): string {
-    return counters.join(",");
-}
-
-function createInitialCounters(count: number): number[] {
-    return new Array(count).fill(0);
-}
-
 parseInput(input);
 
 part1();
